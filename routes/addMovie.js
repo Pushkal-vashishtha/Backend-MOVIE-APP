@@ -65,7 +65,14 @@ router.get("/addMovie/:movieId", async (req, res) => {
     }
    })
    movieDetails.watchProviders = watchProviders
-   res.json(movieDetails)
+   const genreIds= movieDetails.genres.map(genre=> genre.id);
+   const genreNames= movieDetails.genres.map(genre=> genre.name);
+   movieDetails.genreIds =genreIds;
+   movieDetails.genres = genreNames;
+   movieDetails.production_companies = movieDetails.production_companies.map(company=>company.name)
+   movieDetails.watchProviders = movieDetails.watchProviders.map(provider=>provider.name)
+
+   res.render('addMovie',{movieDetails});
    
   } catch (error) {
     console.error(error);
