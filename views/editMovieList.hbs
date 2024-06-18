@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Movie List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        .movieDetailsContainer {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .posterContainer {
+            margin-right: 20px;
+            flex-shrink: 0; /* Prevent poster from shrinking */
+        }
+
+        .posterContainer img {
+            width: 100px;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .detailsTextContainer {
+            flex: 1; /* Take remaining space */
+        }
+
+        .detailsTextContainer h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .detailsTextContainer p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            .movieDetailsContainer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .posterContainer {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+
+            .detailsTextContainer {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Edit Movie List</h1>
+        <a href="/">Go to Dashboard</a>
+        <hr>
+        <div class="movie-list">
+            {{#each movies}}
+            <div class="movieDetailsContainer">
+                <div class="posterContainer">
+                    <img src="" alt="Movie Poster" data-poster-path="https://image.tmdb.org/t/p/original/{{this.posterPath}}">
+                </div>
+                <div class="detailsTextContainer">
+                    <a href="/movies/{{_id}}">
+                        <h2>{{this.title}}</h2>
+                    </a>
+                    <p>{{this.overview}}</p>
+                    <p><strong>Release Date:</strong> {{this.releaseDate}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const posterImages = document.querySelectorAll('.posterContainer img');
+            posterImages.forEach(img => {
+                const posterPath = img.dataset.posterPath;
+                img.src = posterPath;
+            });
+        });
+    </script>
+
+</body>
+
+</html>

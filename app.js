@@ -52,10 +52,12 @@ app.use(bodyParser.urlencoded({extended:true}))
 const authRoutes = require('./routes/authRoutes');
 const dashboard = require('./routes/dashboard');
 const addMovie = require('./routes/addMovie');
+const updateMovieRoute = require('./routes/updateMovie')
 
 app.use('/', authRoutes);
 app.use('/',dashboard);
 app.use('/',addMovie);
+app.use('/',updateMovieRoute);
 
 app.listen(port, ()=>{
     console.log(`API IS RUNNING ON PORT ${port} `)
