@@ -54,11 +54,14 @@ const dashboard = require('./routes/dashboard');
 const addMovie = require('./routes/addMovie');
 const updateMovieRoute = require('./routes/updateMovie')
 const myList  = require('./routes/mylist')
+const watchedMovies  = require('./routes/watchedMovies')
+
 app.use('/', authRoutes);
 app.use('/',dashboard);
 app.use('/',addMovie); 
 app.use('/',updateMovieRoute);
 app.use('/',myList)
+app.use('/',watchedMovies);
 
 app.listen(port, ()=>{
     console.log(`API IS RUNNING ON PORT ${port} `)

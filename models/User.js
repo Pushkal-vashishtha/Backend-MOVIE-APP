@@ -12,6 +12,20 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Movie'
     }],
+    watchedMovies:[{
+        movie:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref: 'Movie'
+        },
+        watchedTime:{
+            type: Number,
+            default: 0,
+        },
+        uploadTime:{
+            type:Date,
+            default:Date.now,
+        },
+    }]
 });
 
 // Add passport-local-mongoose plugin to handle user authentication

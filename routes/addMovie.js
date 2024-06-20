@@ -54,38 +54,36 @@ router.get("/addMovie/:movieId", async (req, res) => {
 
     const watchProvidersUrl = `https://api.themoviedb.org/3/movie/${movieId}/watch/providers`;
     const watchProvidersResponse = await fetch(watchProvidersUrl, options);
-    const watchProviderResult = await watchProvidersResponse.json();
+    const watchProvidersResult = await watchProvidersResponse.json();
 
-    const watchProviders = Object.keys(watchProviderResult.results)
-      .filter((country) => country === "IN")
-      .map((country) => {
-        const countryData = watchProviderResult.results[country];
-        return {
-          country,
-          providerName: countryData.flatrate
-            ? countryData.flatrate[0]?.provider_name
-            : countryData.buy[0]?.provider_name,
-        };
-      });
-    movieDetails.watchProviders = watchProviders;
-    const genreIds = movieDetails.genres.map((genre) => genre.id);
-    const genreNames = movieDetails.genres.map((genre) => genre.name);
-    movieDetails.genreIds = genreIds;
-    movieDetails.genres = genreNames;
-    movieDetails.production_companies = movieDetails.production_companies.map(
-      (company) => company.name
-    );
-    movieDetails.watchProviders = movieDetails.watchProviders.map(
-      (provider) => provider.name
-    );
+    const watchProviders = Object.keys(watchProvidersResult.results)
+            .filter((country) => country === "IN") // Filter only the country with code "IN"
+            .map((country) => {
+                const countryData = watchProvidersResult.results[country];
+                return {
+                    country,
+                    providerName: countryData.flatrate ? countryData.flatrate[0]?.provider_name : countryData.buy[0]?.provider_name,
+                };
+            });
+      movieDetails.watchProviders = watchProviders;
 
-    res.render("addMovie", { movieDetails });
+      const genreIds = movieDetails.genres.map(genre => genre.id);
+      const genreNames = movieDetails.genres.map(genre => genre.name);
+      movieDetails.production_companies = movieDetails.production_companies.map(company => company.name);
+      movieDetails.watchProviders = watchProviders.map(provider => provider.providerName);
+
+      movieDetails.genreIds = genreIds;
+      movieDetails.genres = genreNames;
+
+      console.log("Movie Details", movieDetails)
+
+      // Render the addMovie page with the details of the selected movie
+      res.render('addMovie', { movieDetails });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch details" });
+      console.error(error);
+      res.status(500).json({ error: 'Failed to fetch movie details' });
   }
 });
-
 router.post("/add-movie-details", async (req, res) => {
   try {
     const movieDetails = req.body;
