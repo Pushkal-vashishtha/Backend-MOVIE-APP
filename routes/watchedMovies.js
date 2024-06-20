@@ -87,5 +87,29 @@ router.get('/watched-time/:movieId', isLoggedIn, async (req, res) => {
     }
 });
 
+router.get('/watched-movies', isLoggedIn, async (req, res) => {
+    try {
+        const user = req.user;
 
+        // Fetch all movies with their watched times
+        const watchedMovies = await Promise.all(user.watchedMovies.map(async ({ movie, watchedTime, uploadTime }) => {
+            // Populate the movie details using the movie ID
+            const movieDetails = await Movie.findById(movie);
+
+            return {
+                movie: movieDetails,
+                watchedTime,
+                uploadTime,
+            };
+        }));
+
+        // Sort the watchedMovies based on the uploadTime in descending order
+        watchedMovies.sort((a, b) => b.uploadTime - a.uploadTime);
+        // watchedMovies.sort((a, b) => new Date(b.uploadTime) - new Date(a.uploadTime));
+
+        res.json({ success: true, watchedMovies });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
 module.exports =router ;

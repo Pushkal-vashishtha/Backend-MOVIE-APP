@@ -56,6 +56,9 @@ const updateMovieRoute = require('./routes/updateMovie')
 const myList  = require('./routes/mylist')
 const watchedMovies  = require('./routes/watchedMovies')
 const deleteMovie = require('./routes/deleteMovie')
+const getMovies = require('./routes/getMovies')
+
+
 app.use('/', authRoutes);
 app.use('/',dashboard);
 app.use('/',addMovie); 
@@ -63,6 +66,7 @@ app.use('/',updateMovieRoute);
 app.use('/',myList)
 app.use('/',watchedMovies);
 app.use('/',deleteMovie);
+app.use('/',getMovies)
 
 app.listen(port, ()=>{
     console.log(`API IS RUNNING ON PORT ${port} `)
