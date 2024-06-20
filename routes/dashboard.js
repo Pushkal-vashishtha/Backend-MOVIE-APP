@@ -18,5 +18,8 @@ router.get('/addMovieRoute', isAdminAuthenticated,(req,res)=>{
 router.get('/updateMovieRoute', isAdminAuthenticated, (req, res) => {
   res.redirect('/edit-movie-list'); // Assuming you have an updateMovie view
 });
+router.get('/deleteMovieRoute', isAdminAuthenticated, (req, res) => {
+  res.redirect('/delete-movie'); // Assuming you have an updateMovie view
+});
 
 module.exports = router;
